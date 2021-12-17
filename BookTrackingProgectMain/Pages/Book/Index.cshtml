@@ -1,0 +1,48 @@
+﻿@page
+@model BookTrackingProgectMain.Pages.Book.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Books[0].BookTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Books[0].Category)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Books[0].BookAuther)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Books) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BookTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BookAuther)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.ISBM">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.ISBM">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.ISBM">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

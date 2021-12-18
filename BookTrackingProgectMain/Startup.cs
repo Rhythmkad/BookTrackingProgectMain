@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using BookTrackingProgectMain.Data;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BookTrackingProgectMain
 {
@@ -25,11 +26,27 @@ namespace BookTrackingProgectMain
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+           
             services.AddRazorPages();
+
+            //caching is used
+            services.AddMvc(options =>
+            {
+                options.CacheProfiles.Add("Default10",
+                    new CacheProfile()
+                    {
+                        Duration = 10
+                    });
+            });
 
             services.AddDbContext<BookTrackingProgectMainContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("BookTrackingProgectMainContext")));
+           
+            
+            //response compresion
+            services.AddResponseCompression();
         }
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -44,7 +61,7 @@ namespace BookTrackingProgectMain
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            app.UseResponseCompression();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
